@@ -1,10 +1,11 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, status
+from fastapi.responses import JSONResponse
 from app.schemas.messagge_schemas import MessageSchema
-from app.crud.message_crud import create_message
+from app.services.crud.message_crud import create_message
 
 router = APIRouter()
 
 @router.post("/message", status_code=status.HTTP_201_CREATED)
 async def create_message_(message_data: MessageSchema):
     await create_message(message_data)
-    return {"message": "Habar qabul qilindi"}
+    return JSONResponse(content={"message": "Message received"}, status_code=status.HTTP_201_CREATED)

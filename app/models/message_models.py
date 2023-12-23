@@ -1,15 +1,12 @@
-from sqlalchemy import Column, Integer, String, DateTime
-from sqlalchemy.ext.hybrid import hybrid_property
-from app.core.database import Base
 from datetime import datetime
-from uuid import uuid4
+from sqlalchemy import Column, Integer, String, DateTime
+from app.core.database import Base
 
 class MessageModel(Base):
-    
     __tablename__ = "messages"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    T = Column(String, nullable=True)
-    H = Column(String, nullable=True)
-    A = Column(String, nullable=True)
+    temperature = Column(String, nullable=True)
+    salinity = Column(String, nullable=True)
+    water_level = Column(String, nullable=True)
     time = Column('time', DateTime, default=datetime.utcnow)

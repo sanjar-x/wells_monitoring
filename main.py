@@ -29,4 +29,4 @@ app.include_router(router=delete_messages_router, tags=["message"])
 
 
 if __name__ == '__main__':
-    run(app, host="0.0.0.0", port=HTTP_PORT, access_log=False)
+    run(app, host="localhost", port=HTTP_PORT)
