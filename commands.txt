@@ -1,0 +1,6 @@
+pip install --upgrade pip setuptools
+pip cache list
+pip cache purge
+
+
+./.venv/Scripts/activate
