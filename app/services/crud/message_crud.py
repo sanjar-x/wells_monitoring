@@ -10,18 +10,15 @@ from app.schemas.messagge_schemas import MessageSchema
 
 async def create_message(message_data: MessageSchema) -> MessageModel:
     async with get_session() as session:
-        try:
-            # Ручное преобразование данных из схемы в модель
-            created_message = MessageModel(
-                temperature=message_data.T,
-                salinity=message_data.H,
-                water_level=message_data.A
-            )
-            session.add(created_message)
-            await session.commit() # type: ignore
-            return created_message
-        except SQLAlchemyError as e:
-            raise HTTPException(status_code=500, detail="Message not saved to the server")
+        # Ручное преобразование данных из схемы в модель
+        created_message = MessageModel(
+            temperature=message_data.T,
+            salinity=message_data.H,
+            water_level=message_data.A
+        )
+        session.add(created_message)
+        await session.commit() # type: ignore
+        return created_message
 
 async def get_messages() -> List[MessageModel]:
     async with get_session() as session:
