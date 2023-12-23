@@ -9,6 +9,7 @@ class MessageModel(Base):
     __tablename__ = "messages"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    message_id = Column(String, unique=True, default=str(uuid4())[:8])
-    message = Column(String, nullable=True)
+    T = Column(String, nullable=True)
+    H = Column(String, nullable=True)
+    A = Column(String, nullable=True)
     time = Column('time', DateTime, default=datetime.utcnow)
