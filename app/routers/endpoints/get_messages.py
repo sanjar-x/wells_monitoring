@@ -4,6 +4,6 @@ from app.crud.message_crud import get_messages
 router = APIRouter()
 
 @router.get("/messages")
-async def create_messages_():
+async def get_messages_():
     messeges_data = await get_messages()
     return messeges_data
