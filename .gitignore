@@ -1,4 +1,5 @@
 .venv
+/.venv
 .vscode
 commands.txt
 standart_structure.txt
