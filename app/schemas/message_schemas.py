@@ -5,3 +5,4 @@ class MessageSchema(BaseModel):
     T: str
     H: str
     A: str
+    number: str

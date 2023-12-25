@@ -2,7 +2,8 @@ import asyncio
 from app.core.database import Base, engine
 
 async def init_database():
-    from app.models.message_models import MessageModel
+    from app.models.well_models import WelleModel, MessageModel
+    from app.models.user_models import UserModel
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 

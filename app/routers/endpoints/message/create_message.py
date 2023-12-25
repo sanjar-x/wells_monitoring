@@ -1,6 +1,6 @@
 from fastapi import APIRouter, status
 from fastapi.responses import JSONResponse
-from app.schemas.messagge_schemas import MessageSchema
+from app.schemas.message_schemas import MessageSchema
 from app.services.crud.message_crud import create_message
 
 router = APIRouter()
