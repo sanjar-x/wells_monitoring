@@ -31,7 +31,7 @@ async def get_wells() -> List[WelleModel]:
 async def get_well(well_id: str) -> Optional[WelleModel]:
     async with get_session() as session:
         try:
-            query = select(WelleModel).filter(WelleModel.id == well_id)
+            query = select(WelleModel).filter(WelleModel.well_id == well_id)
             result = await session.execute(query)
             return result.scalar_one()
         except NoResultFound:
