@@ -1,6 +1,6 @@
 from fastapi import APIRouter, status
 from fastapi.responses import JSONResponse
-from app.services.crud.user_crud import set_status
+from app.services.status.set_user_status import set_status
 
 router = APIRouter()
 

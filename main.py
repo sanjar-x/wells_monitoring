@@ -26,7 +26,7 @@ from app.routers.endpoints.well.get_well import router as get_well_router
 from app.routers.endpoints.well.get_wells import router as get_wells_router
 from app.routers.endpoints.well.update_well import router as update_well_router
 
-HTTP_PORT = 8001
+HTTP_PORT = 8000
 
 app = FastAPI(title="Wells Platform API", description="API-документация для веб-платформы колодец", version="0.0.1")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
