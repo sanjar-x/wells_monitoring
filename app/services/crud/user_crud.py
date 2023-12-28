@@ -69,13 +69,3 @@ async def delete_user(user_id: str):
             await session.commit()
             return True
         return False
-
-
-async def set_status(user_id: str, is_superuser: bool):
-    async with get_session() as session:
-        result = await session.execute(
-            select(UserModel).where(UserModel.user_id == user_id)
-        )
-        user = result.scalars().first()
-        await user.set_status(is_superuser)        
-        await session.commit()

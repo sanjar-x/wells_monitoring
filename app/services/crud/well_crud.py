@@ -8,7 +8,6 @@ from app.schemas.wells_schemas import WelleSchema, WelleUpdateSchema
 
 logger = logging.getLogger(__name__)
 
-
 async def create_well(well_data: WelleSchema) -> WelleModel:
     async with get_session() as session:
         new_well = WelleModel(**well_data.model_dump())

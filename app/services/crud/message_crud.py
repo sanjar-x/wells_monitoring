@@ -10,12 +10,7 @@ from app.schemas.message_schemas import MessageSchema
 
 async def create_message(message_data: MessageSchema) -> MessageModel:
     async with get_session() as session:
-        created_message = MessageModel(
-            temperature=message_data.T,
-            salinity=message_data.H,
-            water_level=message_data.A,
-            number = message_data.number
-        )
+        created_message = MessageModel(**message_data.model_dump())
         session.add(created_message)
         await session.commit()
         return created_message
