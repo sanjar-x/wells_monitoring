@@ -59,7 +59,7 @@ async def update_well(
     update_data_dict = update_well_data.dict()  # Convert Pydantic model to dictionary
     async with get_session() as session:
         try:
-            query = select(WelleModel).filter(WelleModel.id == well_id)
+            query = select(WelleModel).filter(WelleModel.well_id == well_id)
             result = await session.execute(query)
             well_to_update = result.scalar_one()
             for (
@@ -80,7 +80,7 @@ async def update_well(
 async def delete_well(well_id: str) -> bool:
     async with get_session() as session:
         try:
-            query = select(WelleModel).filter(WelleModel.id == well_id)
+            query = select(WelleModel).filter(WelleModel.well_id == well_id)
             result = await session.execute(query)
             well_to_delete = result.scalar_one()
             await session.delete(well_to_delete)
