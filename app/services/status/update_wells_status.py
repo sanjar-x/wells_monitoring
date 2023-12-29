@@ -20,6 +20,6 @@ async def update_well_status():
             else:
                 well.status = False
 
-        await session.commit()  # type: ignore
+        await session.commit() # type: ignore
 
 

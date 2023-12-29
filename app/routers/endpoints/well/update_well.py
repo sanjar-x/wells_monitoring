@@ -6,7 +6,7 @@ from app.schemas.wells_schemas import WelleUpdateSchema
 router = APIRouter()
 
 @router.patch("/wells/{well_id}")
-async def update_well_endpoint(well_id: int, update_well_data: WelleUpdateSchema):
+async def update_well_endpoint(well_id: str, update_well_data: WelleUpdateSchema):
     existing_well = await get_well(well_id)
     if not existing_well:
             return JSONResponse(

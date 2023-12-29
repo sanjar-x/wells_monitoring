@@ -5,7 +5,7 @@ from app.services.crud.well_crud import delete_well, get_well
 router = APIRouter()
 
 @router.delete("/wells/{well_id}")
-async def delete_well_endpoint(well_id: int):
+async def delete_well_endpoint(well_id: str):
     existing_well = await get_well(well_id)
     if not existing_well:
         return JSONResponse(
