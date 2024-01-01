@@ -9,17 +9,23 @@ from app.models.well_models import MessageModel
 from app.schemas.message_schemas import MessageSchema
 
 async def create_message(message_data: MessageSchema) -> MessageModel:
-    async with get_session() as session:
-        created_message = MessageModel(**message_data.model_dump())
-        session.add(created_message)
-        await session.commit()
-        return created_message
+    try:
+        async with get_session() as session:
+            created_message = MessageModel(**message_data.model_dump())
+            session.add(created_message)
+            await session.commit() # type: ignore
+            return created_message
+    except SQLAlchemyError as e:
+        raise HTTPException(status_code=500, detail=f"Error creating message: {e}")
 
 async def get_messages() -> List[MessageModel]:
-    async with get_session() as session:
-        result = await session.execute(select(MessageModel)) # type: ignore
-        messages = result.scalars().all()
-        return messages
+    try:
+        async with get_session() as session:
+            result = await session.execute(select(MessageModel)) # type: ignore
+            messages = result.scalars().all()
+            return messages
+    except SQLAlchemyError as e:
+        raise HTTPException(status_code=500, detail=f"Error retrieving messages: {e}")
 
 async def delete_messages():
     try:
@@ -28,4 +34,3 @@ async def delete_messages():
             await session.commit() # type: ignore
     except SQLAlchemyError as e:
         raise HTTPException(status_code=500, detail="Error deleting messages")
-

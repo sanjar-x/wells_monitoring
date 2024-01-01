@@ -8,6 +8,13 @@ Group=root
 WorkingDirectory=/root/wells_monitoring
 ExecStart=/root/wells_monitoring/venv/bin/gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app --bind 0.0.0.0:8000
 
+Restart=always
+RestartSec=5
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=wells
+
 [Install]
 WantedBy=multi-user.target
 

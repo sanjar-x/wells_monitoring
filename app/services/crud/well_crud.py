@@ -1,27 +1,30 @@
+import logging
 from typing import List, Optional
+from sqlalchemy import delete
 from sqlalchemy.future import select
 from sqlalchemy.exc import NoResultFound, SQLAlchemyError
-import logging
+
 from app.core.database import get_session
 from app.models.well_models import WelleModel
 from app.schemas.wells_schemas import WelleSchema, WelleUpdateSchema
 
 logger = logging.getLogger(__name__)
 
+
 async def create_well(well_data: WelleSchema) -> WelleModel:
     async with get_session() as session:
         new_well = WelleModel(**well_data.model_dump())
         session.add(new_well)
-        await session.commit()
+        await session.commit()  # type: ignore
         return new_well
 
 
 async def get_wells() -> List[WelleModel]:
     async with get_session() as session:
         try:
-            query = select(WelleModel)
-            result = await session.execute(query)
-            return result.scalars().all()
+            result = await session.execute(select(WelleModel))  # type: ignore
+            wells = result.scalars().all()
+            return wells
         except SQLAlchemyError as e:
             logger.error(f"Error fetching all wells: {e}")
             return []
@@ -30,8 +33,9 @@ async def get_wells() -> List[WelleModel]:
 async def get_well(well_id: str) -> Optional[WelleModel]:
     async with get_session() as session:
         try:
-            query = select(WelleModel).filter(WelleModel.well_id == well_id)
-            result = await session.execute(query)
+            result = await session.execute(
+                select(WelleModel).filter(WelleModel.well_id == well_id)
+            )  # type: ignore
             return result.scalar_one()
         except NoResultFound:
             return None
@@ -43,8 +47,9 @@ async def get_well(well_id: str) -> Optional[WelleModel]:
 async def get_well_by_number(number: str) -> Optional[WelleModel]:
     async with get_session() as session:
         try:
-            query = select(WelleModel).filter(WelleModel.number == number)
-            result = await session.execute(query)
+            result = await session.execute(
+                select(WelleModel).filter(WelleModel.number == number)
+            )  # type: ignore
             return result.scalar_one()
         except NoResultFound:
             return None
@@ -59,8 +64,9 @@ async def update_well(
     update_data_dict = update_well_data.dict()  # Convert Pydantic model to dictionary
     async with get_session() as session:
         try:
-            query = select(WelleModel).filter(WelleModel.well_id == well_id)
-            result = await session.execute(query)
+            result = await session.execute(
+                select(WelleModel).filter(WelleModel.well_id == well_id)
+            )  # type: ignore
             well_to_update = result.scalar_one()
             for (
                 key,
@@ -68,8 +74,8 @@ async def update_well(
             ) in update_data_dict.items():  # Now iterate over the dictionary
                 if value is not None:
                     setattr(well_to_update, key, value)
-            await session.commit()
-            await session.refresh(well_to_update)
+            await session.commit()  # type: ignore
+            await session.refresh(well_to_update)  # type: ignore
             return well_to_update
         except NoResultFound:
             return None
@@ -77,14 +83,14 @@ async def update_well(
             logger.error(f"Error updating well with ID {well_id}: {e}")
             return None
 
+
 async def delete_well(well_id: str) -> bool:
     async with get_session() as session:
         try:
-            query = select(WelleModel).filter(WelleModel.well_id == well_id)
-            result = await session.execute(query)
-            well_to_delete = result.scalar_one()
-            await session.delete(well_to_delete)
-            await session.commit()
+            await session.execute(
+                delete(WelleModel).where(WelleModel.well_id == well_id)
+            )  # type: ignore
+            await session.commit()  # type: ignore
             return True
         except NoResultFound:
             return False

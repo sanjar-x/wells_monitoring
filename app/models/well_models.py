@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from time import time
 from sqlalchemy import Column, String, DateTime, Boolean
 from app.core.database import Base
@@ -21,7 +21,7 @@ class WelleModel(Base):
     latitude = Column(String, nullable=True)
     longitude = Column(String, nullable=True)
     status = Column(Boolean, default=True)
-    created_time = Column("time", DateTime, default=datetime.utcnow)
+    created_time = Column("time", DateTime, default=datetime.now(timezone.utc))
 
 
 class MessageModel(Base):
@@ -38,4 +38,4 @@ class MessageModel(Base):
     salinity = Column(String, nullable=True)
     water_level = Column(String, nullable=True)
     number = Column(String, nullable=True)
-    time = Column("time", DateTime, default=datetime.utcnow)
+    time = Column("time", DateTime, default=datetime.now(timezone.utc))

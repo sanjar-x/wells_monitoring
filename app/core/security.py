@@ -1,7 +1,7 @@
 import logging
 import secrets
 import string
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from argon2 import PasswordHasher
 from argon2.exceptions import VerifyMismatchError, InvalidHashError, VerificationError
@@ -67,7 +67,7 @@ async def verify_password(hashed_password: str, password: str) -> bool:
 async def create_token(user_id: str) -> str:
     payload = {
         "sub": user_id,
-        "exp": datetime.utcnow() + timedelta(minutes=TOKEN_EXP),
+        "exp": datetime.now(timezone.utc) + timedelta(minutes=TOKEN_EXP),
         "iss": "algoritm", 
     }
     headers = {"kid": KID}

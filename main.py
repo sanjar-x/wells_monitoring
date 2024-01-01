@@ -1,5 +1,7 @@
 from uvicorn import run
 from fastapi import FastAPI
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from starlette.middleware.cors import CORSMiddleware
 
 from app.routers.endpoints.auth.sign_in import router as sign_in_router
@@ -45,28 +47,34 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(router=sign_in_router, tags=["auth"])
+# app.mount("/static", StaticFiles(directory="app/templates/static"), name="static")
 
-app.include_router(router=create_user_router, tags=["user"])
-app.include_router(router=get_users_router, tags=["user"])
-app.include_router(router=get_user_router, tags=["user"])
-app.include_router(router=get_user_by_username_route, tags=["user"])
-app.include_router(router=update_user_router, tags=["user"])
-app.include_router(router=delete_user_router, tags=["user"])
-app.include_router(router=set_user_status_route, tags=["user"])
+# @app.get("/")
+# async def root():
+#     return FileResponse('app/templates/index.html')
 
-app.include_router(router=create_well_router, tags=["well"])
-app.include_router(router=get_well_router, tags=["well"])
-app.include_router(router=get_wells_router, tags=["well"])
-app.include_router(router=update_well_router, tags=["well"])
-app.include_router(router=delete_well_router, tags=["well"])
+app.include_router(router=sign_in_router, tags=["auth"], prefix="/api")
+
+app.include_router(router=create_user_router, tags=["user"], prefix="/api")
+app.include_router(router=get_users_router, tags=["user"], prefix="/api")
+app.include_router(router=get_user_router, tags=["user"], prefix="/api")
+app.include_router(router=get_user_by_username_route, tags=["user"], prefix="/api")
+app.include_router(router=update_user_router, tags=["user"], prefix="/api")
+app.include_router(router=delete_user_router, tags=["user"], prefix="/api")
+app.include_router(router=set_user_status_route, tags=["user"], prefix="/api")
+
+app.include_router(router=create_well_router, tags=["well"], prefix="/api")
+app.include_router(router=get_well_router, tags=["well"], prefix="/api")
+app.include_router(router=get_wells_router, tags=["well"], prefix="/api")
+app.include_router(router=update_well_router, tags=["well"], prefix="/api")
+app.include_router(router=delete_well_router, tags=["well"], prefix="/api")
 
 
-app.include_router(router=statistics_router, tags=["statistics"])
-app.include_router(router=well_statistics_router, tags=["statistics"])
+app.include_router(router=statistics_router, tags=["statistics"], prefix="/api")
+app.include_router(router=well_statistics_router, tags=["statistics"], prefix="/api")
 
-app.include_router(router=create_message_router, tags=["message"])
-app.include_router(router=delete_messages_router, tags=["message"])
+app.include_router(router=create_message_router, tags=["message"], prefix="/api")
+app.include_router(router=delete_messages_router, tags=["message"], prefix="/api")
 
 if __name__ == "__main__":
     run(app, host="localhost", port=HTTP_PORT)
