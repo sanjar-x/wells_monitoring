@@ -18,10 +18,3 @@ SyslogIdentifier=wells
 [Install]
 WantedBy=multi-user.target
 
-
-
-
-sudo nano /etc/systemd/system/wells.service
-sudo systemctl daemon-reload
-
-sudo systemctl restart wells.service

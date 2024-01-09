@@ -34,8 +34,9 @@ class MessageModel(Base):
         unique=True,
         nullable=False,
     )
-    temperature = Column(String, nullable=True)
-    salinity = Column(String, nullable=True)
-    water_level = Column(String, nullable=True)
-    number = Column(String, nullable=True)
+    message = Column(String, nullable=True)
+    # temperature = Column(String, nullable=True)
+    # salinity = Column(String, nullable=True)
+    # water_level = Column(String, nullable=True)
+    # number = Column(String, nullable=True)
     time = Column("time", DateTime, default=datetime.now(timezone.utc))
