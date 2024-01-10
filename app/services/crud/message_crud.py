@@ -9,10 +9,10 @@ from app.models.well_models import MessageModel
 from app.schemas.message_schemas import MessageSchema
 
 
-async def create_message(message: str) -> MessageModel:
+async def create_message(message_data: MessageSchema) -> MessageModel:
     try:
         async with get_session() as session:
-            created_message = MessageModel(message=message)
+            created_message = MessageModel(**message_data.model_dump())
             session.add(created_message)
             await session.commit()  # type: ignore
             return created_message
