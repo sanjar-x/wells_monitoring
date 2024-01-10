@@ -10,6 +10,6 @@ router = APIRouter()
 async def create_message_(message_data: MessageSchema):
     await create_message(message_data)
     return JSONResponse(
-        content={"message": "Message received", "data": message_data},
+        content={"message": "Message received"},
         status_code=status.HTTP_200_OK,
     )
