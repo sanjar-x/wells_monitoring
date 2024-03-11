@@ -1,0 +1,23 @@
+name: CI/CD cyberswap.uz
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Deploy
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.QHOST }}
+        username: ${{ secrets.QUSERNAME }}
+        key: ${{ secrets.QKEY }}
+        script: |
+          cd wells_monitoring
+          git reset --hard HEAD
+          git pull
+          sudo systemctl restart quduqloyiha.uz
