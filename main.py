@@ -32,12 +32,14 @@ from app.routers.endpoints.message.delete_messages import (
     router as delete_messages_router,
 )
 
-HTTP_PORT = 8001
+HTTP_PORT = 8000
 
 app = FastAPI(
     title="Wells Platform API",
     description="API-документация для веб-платформы колодец",
     version="0.0.1",
+    docs_url="/api/docs",
+    redoc_url="/api/redoc",
 )
 app.add_middleware(
     CORSMiddleware,

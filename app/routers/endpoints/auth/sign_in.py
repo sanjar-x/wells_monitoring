@@ -13,9 +13,7 @@ router = APIRouter()
 async def admin_sign_in(data: OAuth2PasswordRequestForm = Depends()):
     user_data = await get_user_by_username(data.username)
     if user_data is None:
-        return JSONResponse(
-            content={"error": "Login hato"}, status_code=400
-        )
+        return JSONResponse(content={"error": "Login hato"}, status_code=400)
 
     password_hash = user_data.password_hash
     await verify_password(str(password_hash), data.password)
@@ -25,5 +23,5 @@ async def admin_sign_in(data: OAuth2PasswordRequestForm = Depends()):
 
 
 @router.get("/me")
-async def read_users_me(current_user = Depends(current_user)):
+async def read_users_me(current_user=Depends(current_user)):
     return current_user
