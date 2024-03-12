@@ -1,6 +1,6 @@
 from typing import List
 from datetime import datetime, timedelta
-from app.models.well_models import MessageModel
+from app.models.models import MessageModel
 from sqlalchemy import and_
 from sqlalchemy.future import select
 from app.core.database import get_session
