@@ -2,7 +2,7 @@ from typing import Optional
 from sqlalchemy.future import select
 from sqlalchemy.exc import NoResultFound, SQLAlchemyError
 from app.core.database import get_session
-from app.models.user_models import UserModel
+from app.models.models import UserModel
 from app.schemas.user_schemas import UserCreateSchema, UserUpdateSchema
 
 

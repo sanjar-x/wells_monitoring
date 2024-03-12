@@ -5,24 +5,24 @@ from sqlalchemy.future import select
 from sqlalchemy.exc import NoResultFound, SQLAlchemyError
 
 from app.core.database import get_session
-from app.models.well_models import WelleModel
+from app.models.models import WellsModel
 from app.schemas.wells_schemas import WelleSchema, WelleUpdateSchema
 
 logger = logging.getLogger(__name__)
 
 
-async def create_well(well_data: WelleSchema) -> WelleModel:
+async def create_well(well_data: WelleSchema) -> WellsModel:
     async with get_session() as session:
-        new_well = WelleModel(**well_data.model_dump())
+        new_well = WellsModel(**well_data.model_dump())
         session.add(new_well)
         await session.commit()  # type: ignore
         return new_well
 
 
-async def get_wells() -> List[WelleModel]:
+async def get_wells() -> List[WellsModel]:
     async with get_session() as session:
         try:
-            result = await session.execute(select(WelleModel))  # type: ignore
+            result = await session.execute(select(WellsModel))  # type: ignore
             wells = result.scalars().all()
             return wells
         except SQLAlchemyError as e:
@@ -30,11 +30,11 @@ async def get_wells() -> List[WelleModel]:
             return []
 
 
-async def get_well(well_id: str) -> Optional[WelleModel]:
+async def get_well(well_id: str) -> Optional[WellsModel]:
     async with get_session() as session:
         try:
             result = await session.execute(
-                select(WelleModel).filter(WelleModel.well_id == well_id)
+                select(WellsModel).filter(WellsModel.well_id == well_id)
             )  # type: ignore
             return result.scalar_one()
         except NoResultFound:
@@ -44,11 +44,11 @@ async def get_well(well_id: str) -> Optional[WelleModel]:
             return None
 
 
-async def get_well_by_number(number: str) -> Optional[WelleModel]:
+async def get_well_by_number(number: str) -> Optional[WellsModel]:
     async with get_session() as session:
         try:
             result = await session.execute(
-                select(WelleModel).filter(WelleModel.number == number)
+                select(WellsModel).filter(WellsModel.number == number)
             )  # type: ignore
             return result.scalar_one()
         except NoResultFound:
@@ -60,12 +60,12 @@ async def get_well_by_number(number: str) -> Optional[WelleModel]:
 
 async def update_well(
     well_id: str, update_well_data: WelleUpdateSchema
-) -> Optional[WelleModel]:
+) -> Optional[WellsModel]:
     update_data_dict = update_well_data.dict()  # Convert Pydantic model to dictionary
     async with get_session() as session:
         try:
             result = await session.execute(
-                select(WelleModel).filter(WelleModel.well_id == well_id)
+                select(WellsModel).filter(WellsModel.well_id == well_id)
             )  # type: ignore
             well_to_update = result.scalar_one()
             for (
@@ -88,7 +88,7 @@ async def delete_well(well_id: str) -> bool:
     async with get_session() as session:
         try:
             await session.execute(
-                delete(WelleModel).where(WelleModel.well_id == well_id)
+                delete(WellsModel).where(WellsModel.well_id == well_id)
             )  # type: ignore
             await session.commit()  # type: ignore
             return True

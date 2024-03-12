@@ -3,9 +3,9 @@ from app.core.database import Base, engine
 
 
 async def init_database():
-    from app.models.user_models import UserModel
-    from app.models.well_models import WelleModel, MessageModel
-    from app.models.statement_models import StatementModel
+    from app.models.models import UserModel
+    from app.models.models import WellsModel, MessageModel
+    from app.models.models import StatementModel
 
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.drop_all)

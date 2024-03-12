@@ -1,13 +1,13 @@
 from datetime import datetime, timedelta
 from sqlalchemy.future import select
 from app.core.database import get_session
-from app.models.well_models import WelleModel, MessageModel
+from app.models.models import WellsModel, MessageModel
 
 
 async def update_well_status():
     async with get_session() as session:
-        wells = await session.execute(select(WelleModel))  # type: ignore
-        wells = wells.scalars().all()
+        result = await session.execute(select(WellsModel))
+        wells = result.scalars().all()
 
         for well in wells:
             last_message_query = (

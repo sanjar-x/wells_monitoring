@@ -5,7 +5,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from fastapi import HTTPException
 
 from app.core.database import get_session
-from app.models.well_models import MessageModel
+from app.models.models import MessageModel
 from app.schemas.message_schemas import MessageSchema
 
 

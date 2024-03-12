@@ -32,6 +32,8 @@ from app.routers.endpoints.message.delete_messages import (
     router as delete_messages_router,
 )
 
+from app.routers.endpoints.settings import settings_router
+
 HTTP_PORT = 8000
 
 app = FastAPI(
@@ -78,6 +80,7 @@ app.include_router(router=well_statistics_router, tags=["statistics"], prefix="/
 
 app.include_router(router=create_message_router, tags=["message"], prefix="/api")
 app.include_router(router=delete_messages_router, tags=["message"], prefix="/api")
+app.include_router(router=settings_router, tags=["settings"], prefix="/api")
 
 if __name__ == "__main__":
     run(app, host="localhost", port=HTTP_PORT)

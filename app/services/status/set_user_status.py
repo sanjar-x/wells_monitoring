@@ -1,6 +1,6 @@
 from sqlalchemy.future import select
 from app.core.database import get_session
-from app.models.user_models import UserModel
+from app.models.models import UserModel
 
 
 async def set_status(user_id: str, is_superuser: bool):
