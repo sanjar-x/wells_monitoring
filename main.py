@@ -38,6 +38,7 @@ app = FastAPI(
     title="Wells Platform API",
     description="API-документация для веб-платформы колодец",
     version="0.0.1",
+    openapi_url="/api/openapi.json",
     docs_url="/api/docs",
     redoc_url="/api/redoc",
 )
