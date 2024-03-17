@@ -7,6 +7,7 @@ from app.routers.dependencies.current_user import current_user_status
 
 router = APIRouter()
 
+
 @router.post("/user", status_code=status.HTTP_201_CREATED)
 async def create_user_(user_data: UserCreateRequestSchema):
     existing_user = await get_user_by_username(user_data.username)
@@ -23,8 +24,8 @@ async def create_user_(user_data: UserCreateRequestSchema):
         password_hash=hashed_password,
         name=user_data.name,
         surname=user_data.surname,
-    ) # type: ignore
-    await create_user(user_data) # type: ignore
+    )  # type: ignore
+    await create_user(user_data)  # type: ignore
     return JSONResponse(
         content={
             "message": f"'{user_data.username}' foydalanuvchi ro'yhatdan o'tkazildi "

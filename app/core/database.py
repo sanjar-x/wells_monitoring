@@ -1,4 +1,6 @@
 from contextlib import asynccontextmanager
+from logging import error
+from typing import AsyncGenerator
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -10,12 +12,13 @@ Base = declarative_base()
 
 
 @asynccontextmanager
-async def get_session():
-    session = SessionLocal()
-    try:
-        yield session
-    except Exception as e:
-        await session.rollback()  # type: ignore
-        raise
-    finally:
-        await session.close()  # type: ignore
+async def get_session() -> AsyncGenerator[AsyncSession, None]:
+    async with sessionmaker() as session:
+        try:
+            yield session
+        except:
+            await session.rollback()
+            error(f"Session rollback due to error")
+            raise
+        finally:
+            await session.close()
