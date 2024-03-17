@@ -1,13 +1,23 @@
 from contextlib import asynccontextmanager
 from logging import error
 from typing import AsyncGenerator
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
+from sqlalchemy.ext.asyncio.engine import AsyncEngine, create_async_engine
+from sqlalchemy.ext.asyncio.session import AsyncSession, async_sessionmaker
+
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 DATABASE_URL = "sqlite+aiosqlite:///./app/core/database.db"
 engine = create_async_engine(DATABASE_URL)
-SessionLocal = sessionmaker(bind=engine, class_=AsyncSession)  # type: ignore
+sessionmaker = async_sessionmaker(
+    bind=engine,
+    class_=AsyncSession,
+    autocommit=False,
+    autoflush=False,
+    expire_on_commit=True,
+    twophase=False,
+)
+# type: ignore
 Base = declarative_base()
 
 
