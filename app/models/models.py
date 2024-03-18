@@ -1,9 +1,11 @@
 import uuid
 from datetime import datetime, timezone
 from sqlalchemy import Column, Boolean, String, DateTime
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import DeclarativeBase
 
-Base = declarative_base()
+
+class Base(DeclarativeBase):
+    pass
 
 
 class UserModel(Base):
@@ -56,13 +58,8 @@ class MessageModel(Base):
         primary_key=True,
         default=lambda: str(uuid.uuid4()),
         unique=True,
-        nullable=False,
     )
-    temperature = Column(String, nullable=True)
-    salinity = Column(String, nullable=True)
-    water_level = Column(String, nullable=True)
-    number = Column(String, nullable=True)
-    time = Column("time", DateTime, default=datetime.now(timezone.utc))
+    content = Column(String, nullable=True)
 
 
 class StatementModel(Base):

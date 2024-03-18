@@ -7,8 +7,11 @@ from sqlalchemy.ext.asyncio.session import AsyncSession, async_sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-DATABASE_URL = "sqlite+aiosqlite:///./app/core/database.db"
-engine = create_async_engine(DATABASE_URL)
+
+engine: AsyncEngine = create_async_engine(
+    url="sqlite+aiosqlite:///./app/core/database.db"
+)
+
 sessionmaker = async_sessionmaker(
     bind=engine,
     class_=AsyncSession,
@@ -17,8 +20,6 @@ sessionmaker = async_sessionmaker(
     expire_on_commit=True,
     twophase=False,
 )
-# type: ignore
-Base = declarative_base()
 
 
 @asynccontextmanager

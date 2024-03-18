@@ -82,5 +82,24 @@ app.include_router(router=create_message_router, tags=["message"], prefix="/api"
 app.include_router(router=delete_messages_router, tags=["message"], prefix="/api")
 app.include_router(router=settings_router, tags=["settings"], prefix="/api")
 
+import asyncio
+from app.core.database import engine
+
+
+async def init_database():
+    async with engine.begin() as conn:
+        from app.models.models import (
+            UserModel,
+            WellsModel,
+            MessageModel,
+            StatementModel,
+            Base,
+        )
+
+        await conn.run_sync(Base.metadata.drop_all)
+        await conn.run_sync(Base.metadata.create_all)
+
+
 if __name__ == "__main__":
+    asyncio.run(init_database())
     run("main:app", host="0.0.0.0", port=HTTP_PORT, reload=True)
